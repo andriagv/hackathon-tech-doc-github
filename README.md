@@ -8,7 +8,6 @@ layout, so judges can compare projects fairly.
 > დოკუმენტს (`.docx`) **ფიქსირებული, ჟიურისთვის თანმიმდევრული სტრუქტურით**. ყველა
 > გუნდი ერთნაირ ლეიაუტს იღებს, ჟიური კი ადვილად ადარებს პროექტებს.
 
-![preview](docs/preview.png)
 
 ## What's inside / რა შედის
 
@@ -35,89 +34,61 @@ Languages / ენები: Georgian (`ka`), English (`en`), or bilingual (`bot
 section headings come from a fixed label set, so the structure is identical for
 every team regardless of language.
 
-## Install / დაყენება
+---
 
-**Cowork / Claude desktop:** open `dist/hackathon-tech-doc.skill` and click
-**Save skill**. Then just ask Claude: *"create a technical doc for my project"*.
+## Browser only — no install needed / მხოლოდ ბრაუზერით, ინსტალაციის გარეშე
 
-> **Cowork / Claude desktop:** გახსენი `dist/hackathon-tech-doc.skill` და დააჭირე
-> **Save skill**-ს. შემდეგ უბრალოდ სთხოვე Claude-ს: *„შემიქმენი ტექნიკური დოკი ჩემს
-> პროექტზე"*.
-
-<<<<<<< HEAD
-## Use without Claude (CLI) / გამოყენება CLI-ით
-
-```bash
-pip install python-docx --break-system-packages -q
-cd skill
-=======
-## Browser only — no Claude desktop, no install / მხოლოდ ბრაუზერით
-
-If a team has **no Claude desktop and no Python installed**, they can run everything
-in the browser with **Google Colab** (free, account = any Google login):
+If a team has **no Claude desktop and no Python installed**, run everything in the
+browser with **Google Colab** (free — only a Google account is needed):
 
 > თუ გუნდს **არც Claude-ის დესკტოპი აქვს და არც Python დაყენებული**, ყველაფერი
-> ბრაუზერში, **Google Colab**-ით კეთდება (უფასო, საჭიროა მხოლოდ Google ანგარიში):
+> ბრაუზერში კეთდება **Google Colab**-ით (უფასო — საჭიროა მხოლოდ Google ანგარიში):
 
-1. Open <https://colab.research.google.com> → **New notebook**.
-2. In the first cell, clone this repo and install the one dependency:
-   ```python
-   !git clone https://github.com/andriagv/hackathon-tech-doc-github.git
-   %cd hackathon-tech-doc-github/skill
-   !pip install python-docx -q
-   ```
-3. In a new cell, write your project content (copy the shape from
-   `example_content.json`):
-   ```python
-   import json
-   content = {
-       "lang": "ka",
-       "title": "ჩემი პროექტი",
-       "org": "ჩემი გუნდი",
-       "event": "Hackathon 2026",
-       "overview": "**ერთი წინადადება პროდუქტზე.** დანარჩენი აღწერა...",
-       "architecture_flow": ["წყარო", "დამუშავება", "ბაზა", "API", "UI"],
-       "architecture_principle": "მოკლე პრინციპი.",
-       "stack_summary": "სტეკის მოკლე აღწერა.",
-       "stack_table": [
-           ["Backend", "FastAPI", "სწრაფი async API"],
-           ["DB", "PostgreSQL", "სანდო რელაციური ბაზა"],
-           ["Frontend", "React", "კომპონენტური UI"]
-       ],
-       "appendix": ["ნაბიჯი 1: დეტალი.", "ნაბიჯი 2: დეტალი."]
-   }
-   json.dump(content, open("content.json", "w"), ensure_ascii=False, indent=2)
-   ```
-4. Generate the document:
-   ```python
-   !python generate_doc.py content.json my-project-technical-doc.docx
-   ```
-5. Download it: in Colab's left **Files** panel, open `hackathon-tech-doc-github/skill`,
-   right-click `my-project-technical-doc.docx` → **Download**.
+**1. Open Google Colab and create a new notebook**
 
-**Tip / რჩევა:** to fill `content` faster, paste the `example_content.json` format
-plus your project description into regular **claude.ai (web)** and ask it to produce
-a matching `content.json` — then drop the result into step 3.
+Go to <https://colab.research.google.com> → **New notebook**.
 
-## Use without Claude (CLI) / გამოყენება CLI-ით
+**2. In the first cell, clone the repo and install the dependency**
 
-```bash
-git clone https://github.com/andriagv/hackathon-tech-doc-github.git
-cd hackathon-tech-doc-github/skill
-pip install python-docx --break-system-packages -q
->>>>>>> c7756f1 (Initial commit: hackathon-tech-doc skill)
-# copy example_content.json, fill in your project, then:
-python generate_doc.py content.json my-project-technical-doc.docx
+```python
+!git clone https://github.com/andriagv/hackathon-tech-doc-github.git
+%cd hackathon-tech-doc-github/skill
+!pip install python-docx -q
 ```
 
-## Prompt to auto-generate your content (give this to any AI)
+**3. In a new cell, write your project content**
 
-Don't want to fill in the JSON by hand? Paste the prompt below into **claude.ai** (or
-any LLM), replace the last lines with your project description, and it will return a
-ready `content = {…}` block to drop into Colab **cell 2** (or save as `content.json`).
+Copy the shape below and fill in your project details
+(or see `skill/example_content.json` for a complete worked example):
 
-> არ გინდა JSON ხელით შეავსო? ჩასვი ეს პრომპტი claude.ai-ში (ან ნებისმიერ AI-ში),
-> ბოლო ხაზებში შენი პროექტი აღწერე და მზა `content = {…}` ბლოკს დაგიბრუნებს.
+```python
+import json
+content = {
+    "lang": "ka",
+    "title": "ჩემი პროექტი",
+    "org": "ჩემი გუნდი",
+    "event": "Hackathon 2026",
+    "overview": "**ერთი წინადადება პროდუქტზე.** დანარჩენი აღწერა...",
+    "architecture_flow": ["წყარო", "დამუშავება", "ბაზა", "API", "UI"],
+    "architecture_principle": "მოკლე პრინციპი.",
+    "stack_summary": "სტეკის მოკლე აღწერა.",
+    "stack_table": [
+        ["Backend",  "FastAPI",      "სწრაფი async API"],
+        ["DB",       "PostgreSQL",   "სანდო რელაციური ბაზა"],
+        ["Frontend", "React",        "კომპონენტური UI"]
+    ],
+    "appendix": ["ნაბიჯი 1: დეტალი.", "ნაბიჯი 2: დეტალი."]
+}
+json.dump(content, open("content.json", "w"), ensure_ascii=False, indent=2)
+```
+
+> **არ გინდა JSON ხელით შეავსო?** გამოიყენე პრომპტი ქვემოდან — ჩასვი ნებისმიერ
+> AI-ში (claude.ai, ChatGPT და სხვ.) და მზა `content = {…}` ბლოკს დაგიბრუნებს,
+> ზუსტად ისე, როგორც ეს უჯრა ელის.
+
+---
+
+### Prompt to auto-generate your content (give this to any AI)
 
 ```
 You are an assistant that prepares the content for a hackathon technical document.
@@ -149,7 +120,42 @@ Here is my project description:
 the architecture/pipeline, and the key technical decisions >>>
 ```
 
-### content.json fields
+Copy the result into Colab cell 3, run it, then continue below.
+
+---
+
+**4. Generate the document**
+
+```python
+!python generate_doc.py content.json my-project-technical-doc.docx
+```
+
+**5. Download it**
+
+In Colab's left **Files** panel, open `hackathon-tech-doc-github/skill`,
+right-click `my-project-technical-doc.docx` → **Download**.
+
+---
+
+## Install as a Claude skill / Claude სქილად დაყენება
+
+**Cowork / Claude desktop:** open `dist/hackathon-tech-doc.skill` and click
+**Save skill**. Then ask Claude: *"create a technical doc for my project"*.
+
+> **Cowork / Claude desktop:** გახსენი `dist/hackathon-tech-doc.skill` და დააჭირე
+> **Save skill**-ს. შემდეგ სთხოვე Claude-ს: *„შემიქმენი ტექნიკური დოკი ჩემს პროექტზე"*.
+
+## Use from the command line / CLI-ით გამოყენება
+
+```bash
+git clone https://github.com/andriagv/hackathon-tech-doc-github.git
+cd hackathon-tech-doc-github/skill
+pip install python-docx --break-system-packages -q
+# copy example_content.json, fill in your project, then:
+python generate_doc.py content.json my-project-technical-doc.docx
+```
+
+## content.json fields
 
 | field | required | notes |
 |-------|----------|-------|
@@ -167,12 +173,14 @@ the architecture/pipeline, and the key technical decisions >>>
 ## Consistency rules / თანმიმდევრობის წესები
 
 Do **not** edit the styling in `generate_doc.py`, rename or add sections, or change
-the table columns — that's what keeps every team's document looking the same. Keep
-output to **one page**: shorten prose rather than shrinking fonts.
+the table columns — that keeps every team's document looking the same. Keep output
+to **one page**: shorten prose rather than shrinking fonts.
 
 > **ნუ** შეცვლი სტილს `generate_doc.py`-ში, ნუ დაარქმევ/დაამატებ სექციებს და ნუ
-> შეცვლი ცხრილის სვეტებს — სწორედ ეს უზრუნველყოფს ერთგვაროვან დოკუმენტებს. შეინარჩუნე
-> **ერთი გვერდი**: ტექსტი მოამოკლე, შრიფტი ნუ დაამცირებ.
+> შეცვლი ცხრილის სვეტებს — სწორედ ეს უზრუნველყოფს ერთგვაროვან დოკუმენტებს.
+> შეინარჩუნე **ერთი გვერდი**: ტექსტი მოამოკლე, შრიფტი ნუ დაამცირებ.
+
+![preview](docs/preview.png)
 
 ## License
 
