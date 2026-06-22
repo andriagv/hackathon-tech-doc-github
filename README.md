@@ -110,6 +110,45 @@ pip install python-docx --break-system-packages -q
 python generate_doc.py content.json my-project-technical-doc.docx
 ```
 
+## Prompt to auto-generate your content (give this to any AI)
+
+Don't want to fill in the JSON by hand? Paste the prompt below into **claude.ai** (or
+any LLM), replace the last lines with your project description, and it will return a
+ready `content = {…}` block to drop into Colab **cell 2** (or save as `content.json`).
+
+> არ გინდა JSON ხელით შეავსო? ჩასვი ეს პრომპტი claude.ai-ში (ან ნებისმიერ AI-ში),
+> ბოლო ხაზებში შენი პროექტი აღწერე და მზა `content = {…}` ბლოკს დაგიბრუნებს.
+
+```
+You are an assistant that prepares the content for a hackathon technical document.
+Return ONLY a single Python code block — a `content = {…}` dictionary — and nothing
+else (no explanation, no text outside the block). End it with the json.dump line.
+
+Fill in EXACTLY these fields (do not change the structure, do not add/remove fields):
+- lang: "en"   (use "ka" for Georgian, or "both" for bilingual headings)
+- title: project name (short)
+- org: team / university
+- event: e.g. "Hackathon 2026"
+- overview: 3–4 sentences. Wrap the first sentence — what the product does — in
+  **double asterisks** (bold). Then describe the technical core.
+- architecture_flow: a list of 5–9 pipeline stages in order (source → … → UI).
+- architecture_principle: one short sentence — the key design principle.
+- stack_summary: one paragraph on the logic of the stack.
+- stack_table: 5–9 rows, each = [layer, technology, why this choice]. Make "why" specific.
+- appendix: 3–6 items, each formatted as "Label: detail."
+
+Rules:
+- Write all text in English (keep product/tech names as they are).
+- Be concrete and concise — the document must fit on ONE page. Do not over-write.
+- Do not invent facts; if something is unclear, infer reasonably from my description.
+- End with exactly this line:
+  json.dump(content, open("content.json","w"), ensure_ascii=False, indent=2)
+
+Here is my project description:
+<<< Describe your project here: what it does, for whom, what technologies you use,
+the architecture/pipeline, and the key technical decisions >>>
+```
+
 ### content.json fields
 
 | field | required | notes |
