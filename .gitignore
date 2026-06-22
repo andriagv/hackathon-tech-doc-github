@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Generated output docs (keep examples/ committed)
+*-technical-doc.docx
+content.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build artifacts
+*.pdf
+*.png
+!docs/preview.png

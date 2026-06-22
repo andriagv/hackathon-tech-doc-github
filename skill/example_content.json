@@ -1,0 +1,37 @@
+{
+  "lang": "ka",
+  "title": "Atlas — ტენდერების ინტელექტუალური პლატფორმა",
+  "org": "საქართველოს ტექნიკური უნივერსიტეტი",
+  "event": "ჰაკათონი 2026",
+  "overview": "**Atlas — B2B პლატფორმა კომპანიებისთვის, რომლებიც სამუშაოს ტენდერებით (ITT/RFP, სახელმწიფო შესყიდვები) იღებენ:** აანალიზებს გუნდისა და კომპეტენციების პროფილს, შეარჩევს მაღალი მოგების შანსის მქონე ტენდერებს და სთავაზობს რეკომენდებულ ფასს. ტექნიკური გული — ორფაზიანი retrieval: კომპეტენციის პროფილი ედრება ტენდერების კორპუსს ჰიბრიდული (dense+sparse) ძებნით Qdrant-ში, იხვეწება cross-encoder რერანკერით, ხოლო Gemini აწარმოებს ინსაიტს, ვალიდაციასა და ფასის რეკომენდაციას RAG-ით (ციტირებით).",
+  "architecture_flow": [
+    "წყაროები",
+    "ინჯესტი/ნორმალიზაცია",
+    "ემბედინგი (dense+sparse)",
+    "Qdrant + PostgreSQL",
+    "ჰიბრიდული ძებნა + ფილტრები",
+    "BGE rerank",
+    "win-prob სქორინგი",
+    "Gemini (RAG)",
+    "dashboard"
+  ],
+  "architecture_principle": "იაფი ფართო recall → ძვირი ზუსტი precision.",
+  "stack_summary": "სტეკის ცენტრში დგას ჰიბრიდული retrieval: Google-ის dense ემბედინგი იჭერს სემანტიკას, BGE-ს sparse ემბედინგი — ზუსტ ტერმინებსა და CPV კოდებს; ორივე ერთად ინდექსდება Qdrant-ში და ირჩევა fusion-ით, შემდეგ იხვეწება BGE რერანკერით და ისახება Gemini-ს RAG ფენაში.",
+  "stack_table": [
+    ["ინჯესტი", "PyMuPDF, Tesseract (OCR), python-docx, unstructured", "მრავალფორმატიანი ფაილების (PDF/DOCX/HTML) ერთიანი პარსინგი"],
+    ["Dense ემბედინგი", "gemini-embedding-001", "მაღალხარისხიანი სემანტიკური მნიშვნელობა, მრავალენოვანი (ქართული)"],
+    ["Sparse ემბედინგი", "BGE-M3 (BAAI/bge-m3)", "ნასწავლი ლექსიკური წონები — იჭერს ზუსტ ტერმინებსა და CPV კოდებს, რომლებსაც dense კარგავს"],
+    ["ვექტორული ბაზა", "Qdrant (hybrid search)", "native dense+sparse named vectors, payload-ფილტრები, RRF/DBSF fusion"],
+    ["რერანკინგი", "bge-reranker-v2-m3", "cross-encoder — ზუსტი top-N მცირე კანდიდატთა ჯგუფზე"],
+    ["მეტა-მონაცემი", "PostgreSQL", "კომპეტენციის პროფილები და ისტორიული award-ფასები (price model)"],
+    ["გენერაცია", "Gemini (gemini-2.5-pro/flash)", "RAG ინსაიტი, eligibility, ფასის რეკომენდაცია (structured)"],
+    ["Frontend", "React / Next.js dashboard", "KPI მონიტორინგი + ქართულენოვანი შეჯამება"]
+  ],
+  "appendix": [
+    "ინჯესტი: Gemini-ს structured-extraction → კანონიკური Tender სქემა (CPV, შემსყიდველი, ვადა, ღირებულება, მოთხოვნები); მოთხოვნის დონის chunking; ყოველდღიური scheduler ახალი ტენდერებისთვის.",
+    "შენახვა: Qdrant point = ტენდერის ჩანკი named vectors-ით (dense+sparse) + payload (CPV/ვადა/რეგიონი/ღირებულება, ინდექსირებული ფილტრებისთვის); raw ფაილები — object storage (MinIO/S3).",
+    "ჰიბრიდული ძებნა: Qdrant Query API — dense+sparse prefetch + fusion (RRF/DBSF); payload pre-filter eligibility-ზე (ვადა, ღირებულება, რეგიონი, სერტიფიკატები) → top-K კანდიდატი.",
+    "რერანკინგი + შერჩევა: ორფაზიანი retrieval — იაფი ფართო recall → ძვირი ზუსტი rerank; ზევით win-prob სქორინგი (ისტ. მოგება, კონკურენცია, მარჟა) ახსნადობით.",
+    "ფასი: PostgreSQL-ის შესადარებელი award-ფასები → win_prob×margin მაქსიმიზაცია; გამოთვლა მოდელით, დასაბუთება Gemini-ით."
+  ]
+}
