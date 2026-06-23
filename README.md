@@ -137,6 +137,35 @@ right-click `my-project-technical-doc.docx` → **Download**.
 
 ---
 
+## Use with Claude Code agent (VS Code / Cursor)
+
+If you have **Claude Code** running as an agent inside your IDE, you don't need to
+clone this repo at all. The agent can read the skill definition directly from GitHub
+and generate the `.docx` file on its own.
+
+> თუ IDE-ში (VS Code, Cursor) **Claude Code** აგენტი გაქვს, repo-ს კლონირება არ
+> გჭირდება — აგენტი SKILL.md-ს პირდაპირ GitHub-ზე კითხულობს და `.docx`-ს თავისით
+> ქმნის.
+
+**1. Add one line to your project's `CLAUDE.md`** (create it in the project root if
+it doesn't exist):
+
+```markdown
+For generating a hackathon technical document (.docx), read the skill definition at:
+https://raw.githubusercontent.com/andriagv/hackathon-tech-doc-github/main/skill/SKILL.md
+```
+
+**2. That's it.** Now ask the agent (in chat or via `/hackathon-tech-doc`):
+
+> *"Create a technical doc for my project."*
+
+The agent will:
+1. Fetch and read the skill definition from the URL above
+2. Gather your project's info from the existing code and conversation
+3. Generate the `.docx` — no Python install or repo clone needed
+
+---
+
 ## Install as a Claude skill / Claude სქილად დაყენება
 
 **Cowork / Claude desktop:** open `dist/hackathon-tech-doc.skill` and click
