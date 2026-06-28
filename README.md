@@ -8,32 +8,6 @@ layout, so judges can compare projects fairly.
 > დოკუმენტს (`.docx`) **ფიქსირებული, ჟიურისთვის თანმიმდევრული სტრუქტურით**. ყველა
 > გუნდი ერთნაირ ლეიაუტს იღებს, ჟიური კი ადვილად ადარებს პროექტებს.
 
-
-## What's inside / რა შედის
-
-```
-skill/
-  SKILL.md             # the skill definition Claude reads
-  generate_doc.py      # locked .docx generator (do not edit styling)
-  example_content.json # a complete worked example
-dist/
-  hackathon-tech-doc.skill   # installable bundle (zip) for Cowork/Claude
-examples/
-  atlas-sample-output.docx   # sample rendered output
-```
-
-## Document structure (fixed) / დოკუმენტის სტრუქტურა (ფიქსირებული)
-
-1. **Title block** — project title + `org | event | doc-kind` subtitle
-2. **Overview** — what the product is + its technical core
-3. **Architecture** — a text arrow-flow (`A → B → C …`) + one design principle
-4. **Technology Stack** — narrative paragraph + a 3-column table (Layer · Technology · Why)
-5. **Appendix** — short bold-labeled step details
-
-Languages / ენები: Georgian (`ka`), English (`en`), or bilingual (`both`). The
-section headings come from a fixed label set, so the structure is identical for
-every team regardless of language.
-
 ---
 
 ## Browser only — no install needed / მხოლოდ ბრაუზერით, ინსტალაციის გარეშე
@@ -183,21 +157,6 @@ pip install python-docx --break-system-packages -q
 # copy example_content.json, fill in your project, then:
 python generate_doc.py content.json my-project-technical-doc.docx
 ```
-
-## content.json fields
-
-| field | required | notes |
-|-------|----------|-------|
-| `lang` | no | `"ka"` (default), `"en"`, or `"both"` |
-| `title` | yes | project name |
-| `org` | no | institution / team |
-| `event` | no | e.g. "Hackathon 2026" |
-| `overview` | yes | 3–4 sentences; `**bold**` the lead clause |
-| `architecture_flow` | yes | array of pipeline stages → rendered as `A → B → C` |
-| `architecture_principle` | no | one short sentence |
-| `stack_summary` | no | one narrative paragraph above the table |
-| `stack_table` | yes | array of `[layer, technology, why]` rows (5–9 ideal) |
-| `appendix` | no | array of `"Label: text"` strings (3–6 ideal) |
 
 ## Consistency rules / თანმიმდევრობის წესები
 
