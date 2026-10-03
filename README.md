@@ -19,27 +19,42 @@ Claude-ის **skill**, რომელიც ნებისმიერი �
 AI დაგიბრუნებს მზა Python code block-ს — `content = {…}`. შეინახე, მე-4 ნაბიჯში
 დაგჭირდება.
 
+> ⚠️ დოკუმენტი **მხოლოდ 1 გვერდია**. prompt-ი AI-ს ზღუდავს, რომ ზედმეტი არ დაწეროს
+> და აქცენტი გააკეთოს **ტექნოლოგიებზე, architecture-ზე და ტექნიკურ ტერმინებზე**.
+> შენც მიაწოდე უპირატესად ტექნიკური ინფორმაცია — მარკეტინგი და ისტორია არ გჭირდება.
+
 ```
 You are an assistant that prepares the content for a hackathon technical document.
 Return ONLY a single Python code block — a `content = {…}` dictionary — and nothing
 else (no explanation, no text outside the block). End it with the json.dump line.
 
-Fill in EXACTLY these fields (do not change the structure, do not add/remove fields):
+HARD LIMIT: the content is for a ONE-PAGE document. It must never exceed one page.
+Less is better: if my input contains more than fits, cut it, and keep only what
+matters most technically.
+
+FOCUS: this is a TECHNICAL document for a jury. Spend the words on technologies,
+architecture, technical terms, and the concrete engineering decisions (what was
+chosen and why). Skip marketing, the problem backstory, team bios, business plans,
+and generic filler ("innovative", "user-friendly", "cutting-edge").
+
+Fill in EXACTLY these fields (do not change the structure, do not add/remove fields).
+The limits are MAXIMUMS, not targets:
 - lang: "en"   (use "ka" for Georgian, or "both" for bilingual headings)
-- title: project name (short)
+- title: project name (short, ≤ 50 characters)
 - org: team / university
 - event: e.g. "Hackathon 2026"
-- overview: 3–4 sentences. Wrap the first sentence — what the product does — in
-  **double asterisks** (bold). Then describe the technical core.
-- architecture_flow: a list of 5–9 pipeline stages in order (source → … → UI).
-- architecture_principle: one short sentence — the key design principle.
-- stack_summary: one paragraph on the logic of the stack.
-- stack_table: 5–9 rows, each = [layer, technology, why this choice]. Make "why" specific.
-- appendix: 3–6 items, each formatted as "Label: detail."
+- overview: max 4 sentences / ~60 words. Wrap the first sentence — what the product
+  does — in **double asterisks** (bold). The rest describes the technical core.
+- architecture_flow: 5–9 pipeline stages in order (source → … → UI), each ≤ 30 characters.
+- architecture_principle: one short sentence (~12 words) — the key design principle.
+- stack_summary: max 2 sentences / ~40 words on the logic of the stack.
+- stack_table: 5–8 rows, each = [layer, technology, why this choice]. "why" ≤ ~15 words,
+  specific and technical (e.g. "async I/O handles 1k concurrent websockets"), not generic.
+- appendix: 3–5 items, each "Label: detail." and ≤ ~30 words.
 
 Rules:
 - Write all text in English (keep product/tech names as they are).
-- Be concrete and concise — the document must fit on ONE page. Do not over-write.
+- Be concrete and dense. Short phrases beat long sentences. No repetition between sections.
 - Do not invent facts; if something is unclear, infer reasonably from my description.
 - Start the block with `import json` and end with exactly this line:
   json.dump(content, open("content.json","w"), ensure_ascii=False, indent=2)
