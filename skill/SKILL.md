@@ -29,7 +29,32 @@ by `generate_doc.py` and must not be changed.
 5. **4. Appendix: Step Details** — short bold-labeled bullets (`Label: text`),
    marked as supplementary "read only if time permits" material.
 
-Keep it to **one page**. Be concise; trim content rather than shrinking fonts.
+## ⛔ HARD LIMIT: exactly ONE page — never more
+
+The document **MUST fit on a single page**. A two-page result is a **failed
+output**, not an acceptable one — do not deliver it. This rule overrides
+completeness: if the team gives more information than fits, **cut it**.
+
+Length budget per field (these are ceilings, not targets — `example_content.json`
+is already at the maximum density):
+
+| field | max |
+|-------|-----|
+| `title` | 50 characters |
+| `overview` | 4 sentences / ~60 words |
+| `architecture_flow` | 9 stages, each ≤ 30 characters |
+| `architecture_principle` | 1 sentence / ~12 words |
+| `stack_summary` | 2 sentences / ~40 words |
+| `stack_table` | 8 rows; "why" cell ≤ ~15 words |
+| `appendix` | 5 items, each ≤ ~30 words |
+
+If the output is longer than one page, trim in this order until it fits:
+1. Shorten `appendix` items, then drop the least important ones (keep ≥ 3).
+2. Shorten the "why" cells in `stack_table`, then merge/drop minor rows (keep ≥ 5).
+3. Shorten `stack_summary`, then `overview`.
+
+**Never** fix overflow by reducing fonts, margins, or spacing, editing
+`generate_doc.py`, or removing a required section.
 
 ## How to use
 
@@ -49,8 +74,14 @@ Keep it to **one page**. Be concise; trim content rather than shrinking fonts.
    pip install python-docx --break-system-packages -q
    python generate_doc.py content.json <project>-technical-doc.docx
    ```
-5. **Verify one page.** If LibreOffice is available, render and confirm a single
-   page; otherwise keep content lean. Then share the `.docx`.
+5. **Verify one page (mandatory).** If LibreOffice is available, convert to PDF
+   and check the page count:
+   ```bash
+   soffice --headless --convert-to pdf <project>-technical-doc.docx
+   ```
+   If it is more than 1 page, trim content (see the trim order above), regenerate,
+   and check again. Repeat until it is exactly 1 page. If you cannot render, stay
+   strictly within the length budget above. Only then share the `.docx`.
 
 ## Input fields (content.json)
 
@@ -72,7 +103,8 @@ Keep it to **one page**. Be concise; trim content rather than shrinking fonts.
 - **Never** edit `generate_doc.py` styling, rename sections, add/remove sections,
   or change the table columns. Every team's doc must look the same.
 - The architecture is always the **text arrow-flow**, never an embedded image.
-- Keep the output to **one page**. Shorten prose; do not reduce the locked fonts.
+- **ONE page maximum — no exceptions.** Respect the length budget; shorten or cut
+  content, never reduce the locked fonts or spacing. Never deliver a 2-page doc.
 - The example (`example_content.json`) reproduces a real reference doc — use it as
   the gold standard for tone, density, and length.
 
